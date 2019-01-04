@@ -11,15 +11,15 @@ namespace HealthCheckHelper
 {
     public abstract class WebDao : IHealthCheck
     {
-        protected string HealthCheckUri { get; set; }
+        protected string HealthCheckEndpoint { get; set; }
         protected string BaseUri { get; set; }
         protected HttpClient Client { get; set; }
 
-        public WebDao(string baseUri, string healthCheckUri)
+        public WebDao(string baseUri, string healthCheckEndpoint)
         {
             BaseUri = baseUri;
-            HealthCheckUri = healthCheckUri;
-            Client = new HttpClient()
+            HealthCheckEndpoint = healthCheckEndpoint;
+            Client = new HttpClient
             {
                 BaseAddress = new Uri(BaseUri)
             };
@@ -27,7 +27,7 @@ namespace HealthCheckHelper
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = new CancellationToken())
         {
-            var result = await Client.GetAsync(HealthCheckUri, cancellationToken);
+            var result = await Client.GetAsync(HealthCheckEndpoint, cancellationToken);
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 return new HealthCheckResult(HealthStatus.Healthy);

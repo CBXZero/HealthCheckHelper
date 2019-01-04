@@ -26,7 +26,7 @@ namespace HealthCheckHelper
                 }
                 catch (Exception ex)
                 {
-                    return new HealthCheckResult(HealthStatus.Unhealthy, ex.Message);
+                    return new HealthCheckResult(HealthStatus.Unhealthy, ex.Message, ex);
                 }
             }
 
